@@ -52,7 +52,31 @@ Dokumentacja API modułu Pythona %{module}.
 %prep
 %setup -q -a1 -n rpds_py-%{version}
 
+# use our offline registry
+export CARGO_HOME="$(pwd)/.cargo"
+
+mkdir -p "$CARGO_HOME"
+cat >.cargo/config <<EOF
+[source.crates-io]
+registry = 'https://github.com/rust-lang/crates.io-index'
+replace-with = 'vendored-sources'
+
+[source.vendored-sources]
+directory = '$PWD/vendor'
+EOF
+
 %build
+export CARGO_HOME="$(pwd)/src/rust/.cargo"
+export CARGO_OFFLINE=true
+export RUSTFLAGS="%{rpmrustflags}"
+export CARGO_TERM_VERBOSE=true
+%ifarch x32
+export CARGO_BUILD_TARGET=x86_64-unknown-linux-gnux32
+export PKG_CONFIG_ALLOW_CROSS=1
+%endif
+
+export CFLAGS="%{rpmcflags}"
+
 %py3_build_pyproject
 
 %if %{with tests}
