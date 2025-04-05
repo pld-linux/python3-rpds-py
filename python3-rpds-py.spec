@@ -73,6 +73,7 @@ export CARGO_TERM_VERBOSE=true
 %ifarch x32
 export CARGO_BUILD_TARGET=x86_64-unknown-linux-gnux32
 export PKG_CONFIG_ALLOW_CROSS=1
+export PYO3_CROSS_LIB_DIR=%{_libdir}
 %endif
 
 export CFLAGS="%{rpmcflags}"
