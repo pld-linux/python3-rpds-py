@@ -7,24 +7,24 @@
 Summary:	Python bindings to Rust's persistent data structures (rpds)
 Summary(pl.UTF-8):	Wiązania Pythona do rustowych trwałych struktur danych (rpds)
 Name:		python3-%{module}
-Version:	0.26.0
+Version:	2026.9.1
 Release:	1
 License:	MIT
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/rpds-py/
 Source0:	https://files.pythonhosted.org/packages/source/r/rpds-py/rpds_py-%{version}.tar.gz
-# Source0-md5:	08ebed346f6d749762503b885ef18164
+# Source0-md5:	7e3379927ab1671d66cdb63bcab9d71d
 # cargo vendor-filterer --platform='*-unknown-linux-*' --tier=2
 # tar cJf rpds_py-crates-%{version}.tar.xz vendor Cargo.lock
 Source1:	rpds_py-crates-%{version}.tar.xz
-# Source1-md5:	5c9334e893a34348c3d13fa06e5bed60
+# Source1-md5:	b2fdac13fd7341eb295e1dbad5ffe040
 URL:		https://pypi.org/project/rpds-py/
 BuildRequires:	cargo
 BuildRequires:	python3-build
 BuildRequires:	python3-installer
 BuildRequires:	python3-maturin >= 1.9
 BuildRequires:	python3-maturin < 2
-BuildRequires:	python3-modules >= 1:3.9
+BuildRequires:	python3-modules >= 1:3.11
 # latest version from vendored crates - main Cargo.toml doesn't specify rust-version
 BuildRequires:	rust >= 1.85.0
 %if %{with tests}
@@ -41,7 +41,7 @@ BuildRequires:	python3-sphinxext.opengraph
 BuildRequires:	python3-url-py
 BuildRequires:	sphinx-pdg-3 > 5
 %endif
-Requires:	python3-modules >= 1:3.9
+Requires:	python3-modules >= 1:3.11
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -78,7 +78,7 @@ directory = '$PWD/vendor'
 EOF
 
 %build
-export CARGO_HOME="$(pwd)/src/rust/.cargo"
+export CARGO_HOME="$(pwd)/.cargo"
 export CARGO_OFFLINE=true
 export RUSTFLAGS="%{rpmrustflags}"
 export CARGO_TERM_VERBOSE=true
